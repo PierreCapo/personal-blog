@@ -69,29 +69,29 @@ As for the header, it is going to have an absolute position, because we want the
 ```jsx
 /* Header.js */
 
-import * as React from "react";
-import { View } from "react-native";
+import * as React from "react"
+import { View } from "react-native"
 
-const HEADER_HEIGHT = 60;
+const HEADER_HEIGHT = 60
 
 export const Header = () => {
-return (
-<View
-style={{
-height: HEADER_HEIGHT,
-position: "absolute",
-top: 0,
-width: "100%",
-zIndex: 2,
-backgroundColor: "#ffb74d",
-justifyContent: "center",
-alignItems: "center",
-}}
->
-<Text>Header</Text>
-</View>
-);
-};
+  return (
+    <View
+      style={{
+        height: HEADER_HEIGHT,
+        position: "absolute",
+        top: 0,
+        width: "100%",
+        zIndex: 2,
+        backgroundColor: "#ffb74d",
+        justifyContent: "center",
+        alignItems: "center",
+      }}
+    >
+      <Text>Header</Text>
+    </View>
+  )
+}
 ```
 
 Finally, we have the list component fetching some Lorem Pictum images placed inside a ScrollView.
@@ -99,25 +99,25 @@ Finally, we have the list component fetching some Lorem Pictum images placed ins
 ```jsx
 /* List.js */
 
-import * as React from "react";
-import { ScrollView, Image } from "react-native";
+import * as React from "react"
+import { ScrollView, Image } from "react-native"
 
 export const List = () => {
-return (
-<ScrollView
-scrollEventThrottle={16}
-contentContainerStyle={{ paddingTop: 50 }}
->
-{Array.from({ length: 10 }, (v, k) => (
-<Image
-style={{ width: "100%", height: 200, marginTop: 50 }}
-key={k + ""}
-source={{ uri: "https://picsum.photos/200/300" }}
-/>
-))}
-</ScrollView>
-);
-};
+  return (
+    <ScrollView
+      scrollEventThrottle={16}
+      contentContainerStyle={{ paddingTop: 50 }}
+    >
+      {Array.from({ length: 10 }, (v, k) => (
+        <Image
+          style={{ width: "100%", height: 200, marginTop: 50 }}
+          key={k + ""}
+          source={{ uri: "https://picsum.photos/200/300" }}
+        />
+      ))}
+    </ScrollView>
+  )
+}
 ```
 
 Now this is how your app should look like:
@@ -131,24 +131,23 @@ But we are lacking the scroll driving the animation, so let's add it using react
 ```jsx
 /* Parent.js */
 
-import * as React from "react";
-import { View } from "react-native";
-import { Header } from "./Header";
-import { List } from "./List";
-import Animated from "react-native-reanimated";
+import * as React from "react"
+import { View } from "react-native"
+import { Header } from "./Header"
+import { List } from "./List"
+import Animated from "react-native-reanimated"
 
 export const Parent = () => {
+  // Create an "y" animated value and pass it down to the children
+  const y = new Animated.Value(0)
 
-// Create an "y" animated value and pass it down to the children
-const y = new Animated.Value(0);
-
-return (
-<View>
-<Header y={y} />
-<List y={y} />
-</View>
-);
-};
+  return (
+    <View>
+      <Header y={y} />
+      <List y={y} />
+    </View>
+  )
+}
 ```
 
 Now, let's drive this "y" value by the ScrollView. This last one got a prop called `onScroll` that is used to bind the scroll to a value. We are also going  to use `react-native-redash` here to get the benefit of a concise syntax for this binding:
@@ -156,30 +155,29 @@ Now, let's drive this "y" value by the ScrollView. This last one got a prop call
 ```jsx
 /* List.js */
 
-import * as React from "react";
-import { Image } from "react-native";
-import { onScroll } from "react-native-redash";
-import Animated from "react-native-reanimated";
+import * as React from "react"
+import { Image } from "react-native"
+import { onScroll } from "react-native-redash"
+import Animated from "react-native-reanimated"
 
 export const List = props => {
-
-return (
-// Use onScroll to update the y value 
-<Animated.ScrollView
-onScroll={onScroll({ y: props.y })}
-scrollEventThrottle={16}
-contentContainerStyle={{ paddingTop: 50 }}
->
-{Array.from({ length: 10 }, (v, k) => (
-<Image
-style={{ width: "100%", height: 200, marginTop: 50 }}
-key={k + ""}
-source={{ uri: "https://picsum.photos/200/300" }}
-/>
-))}
-</Animated.ScrollView>
-);
-};
+  return (
+    // Use onScroll to update the y value
+    <Animated.ScrollView
+      onScroll={onScroll({ y: props.y })}
+      scrollEventThrottle={16}
+      contentContainerStyle={{ paddingTop: 50 }}
+    >
+      {Array.from({ length: 10 }, (v, k) => (
+        <Image
+          style={{ width: "100%", height: 200, marginTop: 50 }}
+          key={k + ""}
+          source={{ uri: "https://picsum.photos/200/300" }}
+        />
+      ))}
+    </Animated.ScrollView>
+  )
+}
 ```
 
 Finally, let's translate the header according to the `y` animated value. We need to convert the previous `View` to an `Animated.View` in order to animate that part of the UI. Then, we just need to pass the y value to the translateY key in the transform property. This is going to translate the `Animated.View` according to the y value updated in real-time by the `ScrollView`
@@ -187,33 +185,33 @@ Finally, let's translate the header according to the `y` animated value. We need
 ```jsx
 /* Header.js */
 
-import * as React from "react";
-import { Text } from "react-native";
-import Animated from "react-native-reanimated";
+import * as React from "react"
+import { Text } from "react-native"
+import Animated from "react-native-reanimated"
 
-const HEADER_HEIGHT = 60;
+const HEADER_HEIGHT = 60
 
 export const Header = props => {
-return (
-// Use Animated.View instead of View
-<Animated.View
-style={{
-height: HEADER_HEIGHT,
-position: "absolute",
-top: 0,
-width: "100%",
-zIndex: 2,
-backgroundColor: "#ffb74d",
-justifyContent: "center",
-alignItems: "center",
-/* Translate the View according to y */
-transform: [{ translateY: props.y }]
-}}
->
-<Text>Header</Text>
-</Animated.View>
-);
-};
+  return (
+    // Use Animated.View instead of View
+    <Animated.View
+      style={{
+        height: HEADER_HEIGHT,
+        position: "absolute",
+        top: 0,
+        width: "100%",
+        zIndex: 2,
+        backgroundColor: "#ffb74d",
+        justifyContent: "center",
+        alignItems: "center",
+        /* Translate the View according to y */
+        transform: [{ translateY: props.y }],
+      }}
+    >
+      <Text>Header</Text>
+    </Animated.View>
+  )
+}
 ```
 
 
@@ -225,8 +223,8 @@ Good, so one last thing to be done is to fix the direction of the translation an
 
 ```jsx
 const translateY = interpolate(props.y, {
-inputRange: [0, HEADER_HEIGHT],
-outputRange: [0, -HEADER_HEIGHT]
+  inputRange: [0, HEADER_HEIGHT],
+  outputRange: [0, -HEADER_HEIGHT]
 });
 ```
 
@@ -243,37 +241,37 @@ So, let's put the glue about all the concepts we just told, and this is what is 
 ```jsx
 /* Header.js */
 
-import * as React from "react";
-import { Text } from "react-native";
-import Animated from "react-native-reanimated";
+import * as React from "react"
+import { Text } from "react-native"
+import Animated from "react-native-reanimated"
 
-const HEADER_HEIGHT = 60;
-const { diffClamp, interpolate } = Animated;
+const HEADER_HEIGHT = 60
+const { diffClamp, interpolate } = Animated
 
 export const Header = props => {
-const diffClampY = diffClamp(props.y, 0, HEADER_HEIGHT);
-const translateY = interpolate(diffClampY, {
-inputRange: [0, HEADER_HEIGHT],
-outputRange: [0, -HEADER_HEIGHT]
-});
-return (
-<Animated.View
-style={{
-height: HEADER_HEIGHT,
-position: "absolute",
-top: 0,
-width: "100%",
-zIndex: 2,
-backgroundColor: "#ffb74d",
-justifyContent: "center",
-alignItems: "center",
-transform: [{ translateY: translateY }]
-}}
->
-<Text>Header</Text>
-</Animated.View>
-);
-};
+  const diffClampY = diffClamp(props.y, 0, HEADER_HEIGHT)
+  const translateY = interpolate(diffClampY, {
+    inputRange: [0, HEADER_HEIGHT],
+    outputRange: [0, -HEADER_HEIGHT],
+  })
+  return (
+    <Animated.View
+      style={{
+        height: HEADER_HEIGHT,
+        position: "absolute",
+        top: 0,
+        width: "100%",
+        zIndex: 2,
+        backgroundColor: "#ffb74d",
+        justifyContent: "center",
+        alignItems: "center",
+        transform: [{ translateY: translateY }],
+      }}
+    >
+      <Text>Header</Text>
+    </Animated.View>
+  )
+}
 ```
 
 
@@ -286,4 +284,4 @@ And so finally, here it comes, this is how we get as a final animation  ðŸŽ‰ ðŸŽ
 ## Conclusion
 
 Congratulations! You have made your first animation with the reanimated API by making the **collapsible header scrollview** animation. I hope you will enjoy the powerfulness of this library.
-Go to the [Github Repository](http://) to have a quick overview of the code developed in this article.
+Go to the [Github Repository](https://github.com/PierreCapo/personal-blog/tree/master/code-examples/introduction-to-react-native-reanimated) to have a quick overview of the code developed in this article.
