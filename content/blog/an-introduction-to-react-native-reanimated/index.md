@@ -49,19 +49,19 @@ Following the architecture scheme, our code should have to start a parent which 
 ```jsx
 /* Parent.js */
 
-import * as React from "react";
-import { View } from "react-native";
-import { Header } from "./Header";
-import { List } from "./List";
+import * as React from "react"
+import { View } from "react-native"
+import { Header } from "./Header"
+import { List } from "./List"
 
 export const Parent = () => {
-return (
-<View>
-<Header />
-<List />
-</View>
-);
-};
+  return (
+    <View>
+      <Header />
+      <List />
+    </View>
+  )
+}
 ```
 
 As for the header, it is going to have an absolute position, because we want the ScrollView to take the entire screen and not bothered by the header:
