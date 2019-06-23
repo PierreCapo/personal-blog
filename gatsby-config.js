@@ -3,7 +3,7 @@ module.exports = {
     title: `React Native Explained`,
     author: `Pierre Caporossi`,
     description: `Personal blog by Pierre Caporossi`,
-    siteUrl: `https://gatsby-starter-blog-demo.netlify.com/`,
+    siteUrl: `http://caporossi.io`,
     social: {
       twitter: `PierreCaporossi`,
     },
@@ -63,7 +63,7 @@ module.exports = {
         background_color: `#ffffff`,
         theme_color: `#663399`,
         display: `minimal-ui`,
-        icon: `content/assets/gatsby-icon.png`,
+        icon: `content/assets/react-icon.png`,
       },
     },
     `gatsby-plugin-offline`,
