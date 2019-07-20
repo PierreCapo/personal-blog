@@ -4,7 +4,10 @@ date: "2019-06-19T23:46:37.121Z"
 description: "Implementing an Airbnb animation as an introduction to reanimated"
 ---
 
-If you are familiar with animations on React-Native, you probably have dealt with the Animated API provided by default. After several months of development, an alternative animated library has been released recently to its version 1: [react-native-reanimated](https://github.com/kmagiera/react-native-reanimated).
+If you are familiar with animations on React-Native, you probably have dealt with the Animated API provided by default. 
+
+Krzysztof Magiera, a core contributor of react-native, has released recently the version 1 of a 1,5k star ⭑ project for making new kind of animations: [react-native-reanimated](https://github.com/kmagiera/react-native-reanimated).
+
 To sum up, this library provides a nicer API along with substantial performance improvements because all the animations run on the native side. I advise you to check [this link](https://github.com/kmagiera/react-native-reanimated#omg-why-would-you-build-this-motivation) for a complete overview of the advantages.
 
 ---
@@ -17,8 +20,10 @@ As an introduction to the reanimated API, we are going to implement a __collapsi
 <img src="./anim.gif" width="337" height="603" />
 </div>
 
+Let's get started!
+
 ## Install
-First, let's install react-native-reanimated:
+First, we have to install react-native-reanimated:
 
 ```bash
 npm install react-native-reanimated
@@ -35,11 +40,11 @@ npm install react-native-redash
 ## Architecture
 
 We are going to architecture our solution in 3 parts:
-1. A parent View
-2. A header placed at position absolute. The challenge is to animate his translation according to the scroll
-3. A ScrollView which is going to drive the animation
+- A parent View 1️⃣
+- A header placed at position absolute. The challenge is to animate his translation according to the scroll 2️⃣
+- A ScrollView (with a list of items) that is going to drive the animation 3️⃣
 
-![alt text](./wireframe.png)
+![alt text](./wireframe_.png)
 
 
 ## Code
@@ -94,7 +99,7 @@ export const Header = () => {
 }
 ```
 
-Finally, we have the list component fetching some Lorem Pictum images placed inside a ScrollView.
+Finally, we have the list component fetching some Lorem Pictum images placed inside a ScrollView. We add here the prop `scrollEventThrottle` to have a smooth animation while scrolling.
 
 ```jsx
 /* List.js */
