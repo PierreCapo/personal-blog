@@ -1,10 +1,8 @@
 ---
 title: Cleaning disk space on your Mac
-date: "2020-01-06T23:46:37.121Z"
+date: "2020-01-15T23:46:37.121Z"
 description: "Deleting safely space from iOS builds when you don't master XCode well"
 ---
-
-# React-Native developers: Cleaning disk space on your Mac
 
 I have been developing React-Native apps for more than one year now. Since Apple machines are quite expensive, I've only picked 256 GB Mac Book Pro for developing and sadly, it has been filled faster than I expected. **A lot of space were taken by XCode** but it can be tricky for a React Native developer to know what you can delete safely. In this blog post, I'm going to share what I did to **remove more than 30 GB** of "useless" files from iOS builds.
 
@@ -26,7 +24,11 @@ Before digging into the actions I've taken, **there is one command you MUST know
 $ find . -maxdepth 1 -mindepth 1 -type d -exec du -hs {} + | sort -r -h
 ```
 
-This bash command will list the files with their sizes associated sorted from the biggest one to the smallest one in the current directory. Really useful to know by yourself what files/folders taking the more spaces on your computer.
+The find utility recursively descends the directory tree for each path listed. In our case we tell it to get the size of each directory present in the current path (`-maxdepth 1 -mindepth 1`)  only, and to sort it by size ( `sort -r -h`).
+
+At the end, this bash command will list the files with their sizes associated sorted from the biggest one to the smallest one in the current directory. Really useful to know by yourself what files/folders taking the more spaces on your computer.
+
+I recommand you to use this command wherever you can if you want to investigate by yourself what directory takes the more space in your computer. Most of the next chapters come from analysis of data that I got from it.
 
 ## Cleaning Archives and Derived Data
 
@@ -39,7 +41,7 @@ npm install -g rn-game-over
 rn-game-over -o
 ```
 
-It will basically clean your derived data and Archives that have been stored during the iOS builds.
+It will basically clean your derived data and Archives that have been stored during the iOS builds. As for myself, this allowed me to free a couple of Gigabytes from my disk.
 
 ## Deleting unused simulators
 
@@ -69,7 +71,7 @@ $ rm -rf *
 
 ## Deleting outdated versions of iOS
 
-Now that you have cleaned up your simulator, we can also remove from XCode iOS versions that you don't use anymore (it can be still downloaded again if you need them in a potential future).
+Now that you have cleaned up your simulator, we can also remove from XCode, versions of iOS that you won't use anymore because they are not used by your users. They can be still downloaded again if needed. 
 
 ```Bash
 $ cd ~/Library/Developer/Xcode/iOS DeviceSupport
@@ -81,7 +83,7 @@ There, you can delete iOS versions that you consider you won't be using much. Ve
 $ rm -rf <ios_version_folder>
 ```
 
-Personally this is for instance what I had (and I kept only iOS 10.3.3 and iOS 13.2.3 in order to save as much disk space as possible):
+To give you an example, I had personally had those many versions. And I only kept iOS 10.3.3 and iOS 13.2.3 in order to save as much disk space as possible:
 
 ![iOS versions](./ios_version_list.png)
 

@@ -1,6 +1,6 @@
 module.exports = {
   siteMetadata: {
-    title: `React Native Explained`,
+    title: `React Native Dev`,
     author: `Pierre Caporossi`,
     description: `Personal blog by Pierre Caporossi`,
     siteUrl: `http://caporossi.io`,
@@ -57,8 +57,8 @@ module.exports = {
     {
       resolve: `gatsby-plugin-manifest`,
       options: {
-        name: `React Native Explained`,
-        short_name: `React Native Explained`,
+        name: `React Native Dev`,
+        short_name: `React Native Dev`,
         start_url: `/`,
         background_color: `#ffffff`,
         theme_color: `#663399`,
